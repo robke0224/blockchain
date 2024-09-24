@@ -1,5 +1,6 @@
 #include "hash.h"
 #include <bitset>
+#include <iostream>
 #include <string>
 #include <sstream>
 #include <iomanip>
@@ -7,6 +8,7 @@
 #include <cmath>
 #include <ctime>
 #include <fstream>
+#include <random>
 
 using namespace std;
 
@@ -140,3 +142,91 @@ void apdoroja(const string& input, ofstream& outputFile) {
 
     outputFile << "hashas: " << hashResult << endl;
 }
+
+///////////////////////////////////////////////////////////////////////////////////////////
+// Generates a file with a single repeated character
+void create_single_char_file(const std::string& filename, char c, size_t size) {
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        for (size_t i = 0; i < size; ++i) {
+            file << c;
+        }
+        file.close();
+    }
+}
+
+// Generates a file with random characters of specified length
+void create_random_char_file(const std::string& filename, size_t size) {
+    std::ofstream file(filename);
+    if (file.is_open()) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> dis(32, 126);  // Printable ASCII chars
+
+        for (size_t i = 0; i < size; ++i) {
+            file << static_cast<char>(dis(gen));  // Cast integer to char
+        }
+        file.close();
+    }
+}
+
+// Generates two files with almost identical content except for one character
+void create_similar_files(const std::string& filename1, const std::string& filename2, size_t size) {
+    std::ofstream file1(filename1);
+    std::ofstream file2(filename2);
+
+    if (file1.is_open() && file2.is_open()) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<int> dis(32, 126);  // Printable ASCII chars
+
+        std::string content(size, ' ');
+        for (size_t i = 0; i < size; ++i) {
+            content[i] = static_cast<char>(dis(gen));  // Cast integer to char
+        }
+
+        // Write identical content to both files, but change one character in the second file
+        file1 << content;
+        content[size / 2] = static_cast<char>(dis(gen));  // Change a middle character
+        file2 << content;
+
+        file1.close();
+        file2.close();
+    }
+}
+
+// Generates an empty file
+void create_empty_file(const std::string& filename) {
+    std::ofstream file(filename);
+    file.close();
+}
+//////////////////////////////////////////////////////////////////////////
+void performance_test(const std::string& filename, int lineCount) {
+    std::ifstream inputFile(filename);
+    ofstream outputFile("hashas_performance.txt");
+    std::string line;
+
+    if (!inputFile.is_open() || !outputFile.is_open()) {
+        std::cout << "Failed to open input or output file!" << std::endl;
+        return;
+    }
+
+    std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();
+
+    int processedLines = 0;
+    while (getline(inputFile, line) && processedLines < lineCount) {
+        apdoroja(line, outputFile);
+        processedLines++;
+    }
+
+   std::chrono::time_point<std::chrono::high_resolution_clock> end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+
+    std::cout << "Processed " << lineCount << " lines in " << elapsed.count() << " seconds." << std::endl;
+
+    inputFile.close();
+    outputFile.close();
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
