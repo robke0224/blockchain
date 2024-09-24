@@ -83,7 +83,9 @@ If you input the string `HelloWorld!`, the program will generate a 64-character 
 
 ## File Structure
 
-- **`hash_generator.cpp`**: Main C++ file that implements the custom hash generator.
+- **`main.cpp`**: Main C++ file that implements the custom hash generator.
+- **`hash.cpp`**: Contains the functions.
+- **`hash.h`**: Header file.
 - **`hashas.txt`**: Output file where the generated hash is saved.
 - **`konstitucija.txt`**: Sample input file to be used if the file input option is selected.
 
