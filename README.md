@@ -96,6 +96,4 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 - The code uses the system time to seed random number generation for additional randomness in the hash.
 - Ensure that the `konstitucija.txt` file exists in the working directory if you're selecting the file input option.
 
-## License
-This project is licensed under the MIT License.
 
