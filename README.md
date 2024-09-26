@@ -99,37 +99,71 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 ------------------------------------------------------------------------------------------------------
 # Pseudocode
 
-Function Definitions
 
-keiciaIvesti(input):
-Iterates through the input string and performs XOR and ASCII manipulation on the characters.
-Reverses the string.
-Ensures all characters are printable.
-ivestis_i_bitus(input):
-Pads the input string to at least 32 characters.
-Converts each character to its 8-bit binary representation.
-hexas(hexChar):
-Increments a hexadecimal character by 1 (wraps around after 'F' or 'f').
-sesiolika_bitu(bits, originalInput):
-Converts a binary string into hexadecimal, applying random shifts based on the length and content of the input.
-suma(input):
-Sums the alphabetical positions of characters in the string (ignores non-alphabetic characters).
-dauginti_bitus_is_sumos(bits, wordSum):
-Modifies the bit string based on the sum of the characters from the suma() function.
-apdoroja(input, outputFile):
-Applies all previous transformations (keiciaIvesti, ivestis_i_bitus, suma, dauginti_bitus_is_sumos, and sesiolika_bitu) to the input and writes the result (hash) to the output file.
-File Generation Functions:
-failiukas(filename, c, size): Creates a file with repeated character c.
-kratinukas(filename, size): Creates a file with random printable characters.
-nevienodi(filename1, filename2, size): Creates two files with random content, where one file differs by one character.
-tuscias(filename): Creates an empty file.
-testukas1(filename, lineCount):
-Reads a specified number of lines from the file, hashes them, and measures the execution time.
-kolizijos(stringPairs):
-Computes and checks for hash collisions in pairs of strings.
-loadStringPairsFromFile(filename):
-Loads pairs of strings from a file.
-Random String and Difference Functions:
-generate_random_string(length): Generates a random string of the specified length.
-compute_bit_difference(binary1, binary2): Calculates the percentage of bit-level differences between two binary strings.
-compute_hex_difference(hex1, hex2): Calculates the percentage of hexadecimal differences between two hex strings.
+Main Functionality Overview:
+The program provides multiple features for hashing strings, testing hash performance, detecting collisions, and measuring hash sensitivity to input changes.
+
+Pseudocode:
+1. Main Menu:
+
+Display a menu with the following options:
+Input string manually and hash it.
+Read strings from a file and hash each line.
+Generate test files for hashing.
+Test hashing performance for different numbers of lines.
+Generate random pairs of strings for collision testing.
+Test collision resistance by hashing string pairs.
+Measure the percentage difference between hashes of similar strings.
+Exit the program.
+Based on the user's choice, call the appropriate function.
+2. String Hashing Logic:
+
+Function apdoroja(input, outputFile):
+Modify the Input:
+XOR and modify each character in the input string.
+Reverse the string and ensure all characters are printable.
+Convert Input to Binary:
+Convert each character of the modified string into an 8-bit binary representation.
+Sum Character Values:
+Calculate the sum of the alphabetic characters' positions in the string (ignoring non-alphabetic characters).
+Modify Binary String:
+Modify the binary string based on the sum of character positions.
+Convert Binary to Hexadecimal:
+Convert the modified binary string into a hexadecimal representation.
+Apply further adjustments to the hexadecimal value.
+Save Result:
+Output the final hash to a file.
+3. File Generation Functions:
+
+Function failiukas(filename, char, size):
+Create a file filled with repeated occurrences of a specific character.
+Function kratinukas(filename, size):
+Create a file filled with random printable ASCII characters.
+Function nevienodi(filename1, filename2, size):
+Create two files with random content where one differs by only one character.
+Function tuscias(filename):
+Create an empty file.
+4. Performance Test Function:
+
+Function testukas1(filename, lineCount):
+Read a specified number of lines from a file and hash each one.
+Measure the time taken to hash the lines.
+Output the total time and number of lines hashed.
+5. Collision Detection:
+
+Function kolizijos(stringPairs):
+Hash each string in the given pairs.
+Check for collisions (when two different strings produce the same hash).
+Output the number of collisions and the conflicting string pairs.
+6. Random String Pair Generation:
+
+Function poros_random(length):
+Generate a random string of a given length using only printable ASCII characters.
+Function loadStringPairsFromFile(filename):
+Load pairs of strings from a file for use in collision detection or other tests.
+7. Difference Measurement Functions:
+
+Function compute_bit_difference(binary1, binary2):
+Compare two binary strings and calculate the percentage difference between them.
+Function compute_hex_difference(hex1, hex2):
+Compare two hexadecimal strings and calculate the percentage difference between them.
