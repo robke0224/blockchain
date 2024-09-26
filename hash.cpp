@@ -9,6 +9,10 @@
 #include <ctime>
 #include <fstream>
 #include <random>
+#include <vector>
+#include <unordered_set>
+#include <utility>
+#include <functional> 
 
 using namespace std;
 
@@ -161,16 +165,16 @@ void kratinukas(const string& filename, size_t size) {
     if (file.is_open()) {
         random_device rd;
         mt19937 gen(rd());
-        uniform_int_distribution<int> dis(32, 126);  // Printable ASCII chars
+        uniform_int_distribution<int> dis(32, 126);  // ascii
 
         for (size_t i = 0; i < size; ++i) {
-            file << static_cast<char>(dis(gen));  // Cast integer to char
+            file << static_cast<char>(dis(gen));  
         }
         file.close();
     }
 }
 
-// Generates two files with almost identical content except for one character
+// vienodi bet viena raide skiriasi
 void nevienodi(const string& filename1, const string& filename2, size_t size) {
     ofstream file1(filename1);
     ofstream file2(filename2);
@@ -178,16 +182,16 @@ void nevienodi(const string& filename1, const string& filename2, size_t size) {
     if (file1.is_open() && file2.is_open()) {
         random_device rd;
         mt19937 gen(rd());
-        uniform_int_distribution<int> dis(32, 126);  // Printable ASCII chars
+        uniform_int_distribution<int> dis(32, 126);  
 
         string content(size, ' ');
         for (size_t i = 0; i < size; ++i) {
-            content[i] = static_cast<char>(dis(gen));  // Cast integer to char
+            content[i] = static_cast<char>(dis(gen));  
         }
 
-        // Write identical content to both files, but change one character in the second file
+        // cia kad vienam faile pakeistu raide
         file1 << content;
-        content[size / 2] = static_cast<char>(dis(gen));  // Change a middle character
+        content[size / 2] = static_cast<char>(dis(gen));  // vidurine pakeicia
         file2 << content;
 
         file1.close();
@@ -195,7 +199,7 @@ void nevienodi(const string& filename1, const string& filename2, size_t size) {
     }
 }
 
-// Generates an empty file
+
 void tuscias(const std::string& filename) {
     ofstream file(filename);
     file.close();
@@ -213,16 +217,16 @@ void testukas1(const string& filename, int lineCount) {
 
     chrono::time_point<chrono::high_resolution_clock> start = chrono::high_resolution_clock::now();
 
-    int processedLines = 0;
-    while (getline(inputFile, line) && processedLines < lineCount) {
+    int uzhashintoseil = 0;
+    while (getline(inputFile, line) && uzhashintoseil < lineCount) {
         apdoroja(line, outputFile);
-        processedLines++;
+        uzhashintoseil++;
     }
 
    chrono::time_point<chrono::high_resolution_clock> end = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = end - start;
 
-    cout << "nuskaitytos " << lineCount << " eilutes per " << elapsed.count() << " sekundziu." << endl;
+    cout << "uzhashintos " << lineCount << " eilutes per " << elapsed.count() << " sekundziu." << endl;
 
     inputFile.close();
     outputFile.close();
@@ -230,3 +234,47 @@ void testukas1(const string& filename, int lineCount) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    string poros_random(int length) {
+    string simboliai = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    string randomas;
+    for (int i = 0; i < length; i++) {
+        randomas += simboliai[rand() % simboliai.size()];
+    }
+    return randomas;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void kolizijos(const vector<pair<string, string> >& stringPairs) {
+    unordered_set<size_t> hashSet;
+    int collisionCount = 0;
+    for (size_t i = 0; i < stringPairs.size(); ++i) {
+        const pair<string, string>& pair = stringPairs[i];
+        size_t hash1 = hash<string>()(pair.first);
+        size_t hash2 = hash<string>()(pair.second);
+        if (hash1 == hash2) {
+            collisionCount++;
+            cout << "kolizija tarp: " << pair.first << " ir " << pair.second << endl;
+        }
+    }
+    if (collisionCount > 0) {
+        cout << "is viso koliziju: " << collisionCount << endl;
+    } else {
+        cout << "koliziju nerasta!" << endl;
+    }
+}
+
+vector<pair<string, string> > loadStringPairsFromFile(const string& filename) {
+    vector<pair<string, string> > stringPairs;
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "nepavyko atidaryti failo " << filename << endl;
+        return stringPairs;
+    }
+    string str1, str2;
+    while (file >> str1 >> str2) {
+        stringPairs.push_back(make_pair(str1, str2));
+    }
+    file.close();
+    return stringPairs;
+}
