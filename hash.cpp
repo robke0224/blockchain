@@ -16,23 +16,35 @@
 
 using namespace std;
 
-string keiciaIvesti(string& input) {
+
+string keiciaIvesti(string &input) {
+    
     for (size_t i = 0; i < input.size(); ++i) {
         if (isalpha(input[i])) {
             if (isupper(input[i]) || input[i] == '?') {
-                input[i] ^= (i % 8);
-                input[i] += 3;
+                input[i] ^= (i % 8);  // XOR mod 8
+                input[i] += 3;        // ascii + 3
             } else {
-                input[i] ^= (i + 5);
-                input[i] -= 4;
+                input[i] ^= (i + 5);  // XOR  +5
+                input[i] -= 4;        // ascii -4
             }
         } else {
-            input[i] ^= (i % 6);
-            input[i] += 1;
+            input[i] ^= (i % 6);  // XOR mod 6
+            input[i] += 1;        // ascii + 1
         }
     }
 
+    
     reverse(input.begin(), input.end());
+
+    
+    for (size_t i = 0; i < input.size(); ++i) {
+        if (!isprint(static_cast<unsigned char>(input[i]))) {
+           
+            input[i] = 'a' + (input[i] % 26);  
+        }
+    }
+
     return input;
 }
 
@@ -277,4 +289,43 @@ vector<pair<string, string> > loadStringPairsFromFile(const string& filename) {
     }
     file.close();
     return stringPairs;
+}
+/////////////////////////////////////////////////////////////////////////
+
+// Function to generate random strings with only printable ASCII characters
+string generate_random_string(size_t length) {
+    const string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";  // Only printable characters
+    random_device rd;
+    mt19937 generator(rd());
+    uniform_int_distribution<> distribution(0, characters.size() - 1);
+
+    string random_string;
+    for (size_t i = 0; i < length; ++i) {
+        random_string += characters[distribution(generator)];
+    }
+    return random_string;
+}
+
+
+
+// Function to compute bit-level difference between two binary strings
+double compute_bit_difference(const string &binary1, const string &binary2) {
+    int differences = 0;
+    for (size_t i = 0; i < binary1.size(); ++i) {
+        if (binary1[i] != binary2[i]) {
+            differences++;
+        }
+    }
+    return (differences / (double)binary1.size()) * 100;
+}
+
+// Function to compute hex-level difference between two hexadecimal strings
+double compute_hex_difference(const string &hex1, const string &hex2) {
+    int differences = 0;
+    for (size_t i = 0; i < hex1.size(); ++i) {
+        if (hex1[i] != hex2[i]) {
+            differences++;
+        }
+    }
+    return (differences / (double)hex1.size()) * 100;
 }
