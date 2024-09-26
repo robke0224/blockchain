@@ -114,3 +114,23 @@ Display a menu with options:
 - Exit the Program
   
 Based on the user's choice, call the corresponding function.
+
+----------------------------------------------------------------------------------------------------
+
+## Hashing logic
+
+function apdoroja(input, outputFile)
+    - Modify the input string:
+        - XOR and modify characters
+        - Reverse the string
+        - Ensure all characters are printable
+    - Convert the modified input to binary
+    - Calculate the sum of alphabetic character positions
+    - Modify the binary string using the character sum
+    - Convert the binary string to hexadecimal
+    - Save the resulting hash to the output file
+
+
+----------------------------------------------------------------------------------------------------
+
+##
