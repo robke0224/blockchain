@@ -97,4 +97,39 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 - Ensure that the `konstitucija.txt` file exists in the working directory if you're selecting the file input option.
 
 ------------------------------------------------------------------------------------------------------
-# Testing
+# Pseudocode
+
+Function Definitions
+
+keiciaIvesti(input):
+Iterates through the input string and performs XOR and ASCII manipulation on the characters.
+Reverses the string.
+Ensures all characters are printable.
+ivestis_i_bitus(input):
+Pads the input string to at least 32 characters.
+Converts each character to its 8-bit binary representation.
+hexas(hexChar):
+Increments a hexadecimal character by 1 (wraps around after 'F' or 'f').
+sesiolika_bitu(bits, originalInput):
+Converts a binary string into hexadecimal, applying random shifts based on the length and content of the input.
+suma(input):
+Sums the alphabetical positions of characters in the string (ignores non-alphabetic characters).
+dauginti_bitus_is_sumos(bits, wordSum):
+Modifies the bit string based on the sum of the characters from the suma() function.
+apdoroja(input, outputFile):
+Applies all previous transformations (keiciaIvesti, ivestis_i_bitus, suma, dauginti_bitus_is_sumos, and sesiolika_bitu) to the input and writes the result (hash) to the output file.
+File Generation Functions:
+failiukas(filename, c, size): Creates a file with repeated character c.
+kratinukas(filename, size): Creates a file with random printable characters.
+nevienodi(filename1, filename2, size): Creates two files with random content, where one file differs by one character.
+tuscias(filename): Creates an empty file.
+testukas1(filename, lineCount):
+Reads a specified number of lines from the file, hashes them, and measures the execution time.
+kolizijos(stringPairs):
+Computes and checks for hash collisions in pairs of strings.
+loadStringPairsFromFile(filename):
+Loads pairs of strings from a file.
+Random String and Difference Functions:
+generate_random_string(length): Generates a random string of the specified length.
+compute_bit_difference(binary1, binary2): Calculates the percentage of bit-level differences between two binary strings.
+compute_hex_difference(hex1, hex2): Calculates the percentage of hexadecimal differences between two hex strings.
