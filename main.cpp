@@ -12,14 +12,20 @@ int main() {
         cout << "1. ivesti ranka" << endl;
         cout << "2. nuskaityti is failo" << endl;
         cout << "3. testavimo failu generavimas" << endl;
-        cout << "4. eiluciu nuskaitymo laiko testavimas" << endl;
+        cout << "4. eiluciu hashavimo laiko testavimas" << endl;
         cout << "5. baigti programa" << endl;  
         
         cin >> choice;
 
-        ofstream outputFile("hashas.txt");
+        ofstream outputFile;
 
-        if (!outputFile.is_open()) {
+        if (choice == 1 || choice == 2) {
+            outputFile.open("hashas.txt");
+        } else if (choice == 4) {
+            outputFile.open("hash_performance.txt");
+        }
+
+        if (!outputFile.is_open() && (choice == 1 || choice == 2 || choice == 4)) {
             cout << "nepavyko atidaryti failo:(" << endl;
             return 1;
         }
@@ -35,7 +41,7 @@ int main() {
                 break;
             }
             case 2: {
-                ifstream inputFile("testas_su_A.txt");
+                ifstream inputFile("testas_su_A.txt");  // Replace with the file you need to read and hash
 
                 if (!inputFile.is_open()) {
                     cout << "nepavyko atidaryti failo:(" << endl;
@@ -85,10 +91,15 @@ int main() {
                 break;
         }
 
-        outputFile.close();
+        if (outputFile.is_open()) {
+            outputFile.close();
+        }
 
-        if (choice != 5) {
+        
+        if (choice == 1 || choice == 2) {
             cout << "ivesties hashas issaugotas faile hashas.txt" << endl;
+        } else if (choice == 4) {
+            cout << "ivesties hashas issaugotas faile hash_performance.txt" << endl;
         }
 
     } while (choice != 5);  
