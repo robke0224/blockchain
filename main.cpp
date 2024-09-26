@@ -170,7 +170,7 @@ case 6:{
     outputFile.close();
     
 
-    checkHashCollisions(stringPairs);
+    kolizijos(stringPairs);
 
 
    break;
