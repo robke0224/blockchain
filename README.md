@@ -133,4 +133,58 @@ function apdoroja(input, outputFile)
 
 ----------------------------------------------------------------------------------------------------
 
-##
+## File Generation Functions
+
+function failiukas(filename, char, size)
+    - Create a file filled with the repeated character
+
+function kratinukas(filename, size)
+    - Create a file with random printable ASCII characters
+
+function nevienodi(filename1, filename2, size)
+    - Create two files with random content, differing by one character
+
+function tuscias(filename)
+    - Create an empty file
+
+----------------------------------------------------------------------------------------------------
+
+## Performance Testing
+
+function testukas1(filename, lineCount)
+    - Read the specified number of lines from the file
+    - Hash each line
+    - Measure the time taken for hashing
+    - Output the results (time taken and number of lines hashed)
+
+----------------------------------------------------------------------------------------------------
+
+## Collision Detection
+
+function kolizijos(stringPairs)
+    - Hash each string in the pairs
+    - Check for hash collisions (if two different strings have the same hash)
+    - Output any detected collisions
+
+----------------------------------------------------------------------------------------------------
+
+## Random String Pair Generation
+
+function poros_random(length)
+    - Generate a random string of the specified length using printable characters
+
+function loadStringPairsFromFile(filename)
+    - Load pairs of strings from a file
+
+----------------------------------------------------------------------------------------------------
+
+## Hash Difference Calculation
+
+function compute_bit_difference(binary1, binary2)
+    - Compare two binary strings and calculate the percentage difference
+
+function compute_hex_difference(hex1, hex2)
+    - Compare two hexadecimal strings and calculate the percentage difference
+
+----------------------------------------------------------------------------------------------------
+
