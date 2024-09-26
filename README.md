@@ -1,5 +1,7 @@
-# Blockchain
------------------------------------------------------------------------------------------------
+
+
+---
+
 # Custom Hash Generator
 
 This repository contains a C++ program that generates a custom hash from user input. The program provides two options for input: manual entry or reading from a file. The hash is generated using bit manipulation, string transformations, and hexadecimal calculations, with additional randomization elements, and the result is saved into a file.
@@ -96,29 +98,30 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 - The code uses the system time to seed random number generation for additional randomness in the hash.
 - Ensure that the `konstitucija.txt` file exists in the working directory if you're selecting the file input option.
 
-------------------------------------------------------------------------------------------------------
-## Pseudocode
+---
 
+## Pseudocode
 
 The program allows users to hash strings, test hash performance, detect collisions, and measure hash sensitivity. The pseudocode below outlines the program's structure and functionality.
 
-## Main Menu
+### Main Menu
 
-Display a menu with options:
-- Manual Input Hashing
-- File-based Hashing
-- Generate Test Files
-- Performance Testing
-- Collision Testing
-- Hash Sensitivity Testing
-- Exit the Program
+- Display a menu with options:
+  - **Manual Input Hashing**
+  - **File-based Hashing**
+  - **Generate Test Files**
+  - **Performance Testing**
+  - **Collision Testing**
+  - **Hash Sensitivity Testing**
+  - **Exit the Program**
   
-Based on the user's choice, call the corresponding function.
+- Based on the user's choice, call the corresponding function.
 
-----------------------------------------------------------------------------------------------------
+---
 
-## Hashing logic
+### Hashing Logic
 
+```cpp
 function apdoroja(input, outputFile)
     - Modify the input string:
         - XOR and modify characters
@@ -129,12 +132,13 @@ function apdoroja(input, outputFile)
     - Modify the binary string using the character sum
     - Convert the binary string to hexadecimal
     - Save the resulting hash to the output file
+```
 
+---
 
-----------------------------------------------------------------------------------------------------
+### File Generation Functions
 
-## File Generation Functions
-
+```cpp
 function failiukas(filename, char, size)
     - Create a file filled with the repeated character
 
@@ -146,45 +150,54 @@ function nevienodi(filename1, filename2, size)
 
 function tuscias(filename)
     - Create an empty file
+```
 
-----------------------------------------------------------------------------------------------------
+---
 
-## Performance Testing
+### Performance Testing
 
+```cpp
 function testukas1(filename, lineCount)
     - Read the specified number of lines from the file
     - Hash each line
     - Measure the time taken for hashing
     - Output the results (time taken and number of lines hashed)
+```
 
-----------------------------------------------------------------------------------------------------
+---
 
-## Collision Detection
+### Collision Detection
 
-function 'kolizijos(stringPairs)'
+```cpp
+function kolizijos(stringPairs)
     - Hash each string in the pairs
     - Check for hash collisions (if two different strings have the same hash)
     - Output any detected collisions
+```
 
-----------------------------------------------------------------------------------------------------
+---
 
-## Random String Pair Generation
+### Random String Pair Generation
 
+```cpp
 function poros_random(length)
     - Generate a random string of the specified length using printable characters
 
 function loadStringPairsFromFile(filename)
     - Load pairs of strings from a file
+```
 
-----------------------------------------------------------------------------------------------------
+---
 
-## Hash Difference Calculation
+### Hash Difference Calculation
 
+```cpp
 function compute_bit_difference(binary1, binary2)
     - Compare two binary strings and calculate the percentage difference
 
 function compute_hex_difference(hex1, hex2)
     - Compare two hexadecimal strings and calculate the percentage difference
+```
 
-----------------------------------------------------------------------------------------------------
+---
 
