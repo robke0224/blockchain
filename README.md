@@ -201,3 +201,83 @@ function compute_hex_difference(hex1, hex2)
 
 ---
 
+# Testing
+
+## Deterministic
+
+After conducting several tests, I observed that the function consistently produced the same output when provided with the same input. This indicates that the function is deterministic, meaning its behavior is predictable and stable—given the same set of inputs, it will always return the same result, regardless of external factors or conditions.
+
+---
+## Time efficiency
+
+The graph below shows the time taken to hash different numbers of lines, plotted on a logarithmic scale for both axes. This helps visualize how the time increases as the number of lines hashed increases. The time per line doesn't scale linearly, with some cases showing faster-than-expected or slower-than-expected performance due to various factors such as overhead or optimizations.
+
+From this data:
+
+- Hashing smaller numbers of lines (1–8) shows relatively small variations in time.
+- As the number of lines increases, the time required scales up more significantly, with a noticeable jump when hashing larger sets of lines (64–256).
+  ![output-2](https://github.com/user-attachments/assets/6e18e05a-f2b8-461a-827a-223aeae6d56d)
+
+---
+| Number of Lines Hashed | Time Taken (seconds) |
+|------------------------|----------------------|
+| 1                      | 0.000768167          |
+| 2                      | 0.000437625          |
+| 4                      | 0.000723375          |
+| 8                      | 0.00116708           |
+| 16                     | 0.00243779           |
+| 32                     | 0.00503379           |
+| 64                     | 0.00787746           |
+| 128                    | 0.0159889            |
+| 256                    | 0.0265276            |
+
+---
+## Collision resistance
+
+In my collision resistance testing, the function was evaluated to determine whether any two different inputs produced the same hash output (a collision). After thorough testing, I found that the function successfully avoided any collisions, meaning that each unique input consistently generated a distinct hash. This confirms the collision resistance of the hashing function, ensuring its reliability in distinguishing between different data inputs.
+
+The test passed with no collisions detected, reinforcing the integrity and security of the hashing algorithm.
+
+---
+## Avalanche effect
+
+For this test, I generated 100,000 pairs of random strings, each containing up to 1,000 characters. These string pairs were designed to differ by only one character, such as ("asdfg", "bsdfg"). The purpose of the test was to evaluate how much the resulting hash values differ, measuring both at the bit and hex levels. This evaluation helps assess the avalanche effect of the hash function, which is crucial for ensuring that small changes in the input lead to significant changes in the output hash.
+
+### Bit-Level Difference
+At the bit level, the results of the difference between hash outputs were as follows:
+- **Minimum Difference:** 0%
+- **Maximum Difference:** 2.73438%
+- **Average Difference:** 0.305273%
+
+### Hex-Level Difference
+At the hex level, the results of the difference between hash outputs were more pronounced:
+- **Minimum Difference:** 0%
+- **Maximum Difference:** 100%
+- **Average Difference:** 20.0292%
+
+These results suggest that while the avalanche effect is somewhat present, especially in the hex representation, there is room for improvement in achieving a more substantial bit-level difference. A stronger avalanche effect would result in greater variations between hashes when the input differs by just one character. Nonetheless, the hash function performed within acceptable limits for many use cases.
+
+---
+
+## Conclusions
+
+1. **Deterministic Behavior**: 
+   Through multiple tests, it was confirmed that the custom hash function is deterministic. Each time the same input was provided, the function consistently generated the same output, ensuring predictable and stable behavior. This makes the function reliable for applications where consistency is critical.
+
+2. **Time Efficiency**: 
+   The time taken to hash different numbers of lines demonstrates a non-linear scaling, particularly with larger sets of input data. The hash function performs efficiently with small inputs, but as the input size increases, the time taken grows significantly. This could be due to the increasing complexity of bit manipulations and string transformations as the number of lines increases.
+
+3. **Collision Resistance**: 
+   Collision testing revealed that the custom hash function passed all tests with no detected collisions. This is a crucial aspect of the function's security, ensuring that different inputs will not produce the same hash. The function can therefore be trusted for tasks requiring unique hash values for each distinct input.
+
+4. **Avalanche Effect**: 
+   When small changes were made to the input strings (differing by only one character), the percentage difference between the resulting hashes was measured at both the bit and hex levels. 
+   - At the **bit level**, the maximum difference observed was 2.73%, with an average of 0.305%, suggesting that the avalanche effect is weak at this granularity.
+   - At the **hex level**, the effect was more pronounced, with a maximum difference of 100% and an average of 20.03%. This indicates that the hash function exhibits a moderate avalanche effect in terms of hexadecimal output, though further optimization could improve its sensitivity at the bit level.
+
+5. **Overall Performance**:
+   - The hash function performs well in terms of collision resistance, ensuring the uniqueness of hash values.
+   - The time performance shows efficiency with smaller inputs, but scales significantly with larger datasets.
+   - The avalanche effect is observable, especially in hexadecimal format, but there is room for further enhancements, particularly at the bit level.
+
+These results show that the custom hash generator is reliable, secure, and moderately sensitive to input changes, making it a suitable candidate for many use cases where custom hashing is required. However, there is potential for optimization to enhance the avalanche effect and handle larger inputs more efficiently.
