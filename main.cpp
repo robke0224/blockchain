@@ -13,7 +13,9 @@ int main() {
         cout << "2. nuskaityti is failo" << endl;
         cout << "3. testavimo failu generavimas" << endl;
         cout << "4. eiluciu hashavimo laiko testavimas" << endl;
-        cout << "5. baigti programa" << endl;  
+        cout << "5. generuoti simboliu eiluciu poras"<< endl;
+        cout << "6. collision resistance test"<< endl;
+        cout << "7. baigti programa" << endl;  
         
         cin >> choice;
 
@@ -82,7 +84,99 @@ int main() {
 
                 break;
             }
-            case 5:
+
+            case 5:{
+
+                srand(time(0)); 
+
+                const int poruIsVis = 100000;
+                const int grupesDydis = 25000;
+
+            vector<pair<string, string> > stringPoros;
+
+           
+            ofstream outputFile("poros.txt");
+             if (!outputFile) {
+                    cerr << "klaida. nepavyko atidaryti failo." << endl;
+                 return 1;
+                }
+
+            // 10 ilgio
+                for (int i = 0; i < grupesDydis; i++) {
+                string str1 = poros_random(10);
+                string str2 = poros_random(10);
+                stringPoros.push_back(make_pair(str1, str2));
+                 }
+
+            // 100 ilgio
+                for (int i = 0; i < grupesDydis; i++) {
+                string str1 = poros_random(100);
+                string str2 = poros_random(100);
+                stringPoros.push_back(make_pair(str1, str2));
+                }
+
+             //500 ilgio
+                for (int i = 0; i < grupesDydis; i++) {
+                string str1 = poros_random(500);
+                string str2 = poros_random(500);
+                stringPoros.push_back(make_pair(str1, str2));
+                 }
+
+            // 1000 ilgio
+                 for (int i = 0; i < grupesDydis; i++) {
+                string str1 = poros_random(1000);
+                string str2 = poros_random(1000);
+                stringPoros.push_back(make_pair(str1, str2));
+                 }
+
+            // irasom i faila
+                for (int i = 0; i < stringPoros.size(); i++) {
+                    outputFile << stringPoros[i].first << ", " << stringPoros[i].second  << endl;
+                 }
+
+            
+                outputFile.close();
+
+                cout << "sekmingai irasyta faile poros.txt" << endl;
+
+    break;
+}
+
+case 6:{
+ 
+   
+    string filename = "poros.txt";
+    vector<pair<string, string> > stringPairs = loadStringPairsFromFile(filename);
+
+    
+    if (stringPairs.empty()) {
+        cerr << "Nepavyko nuskaityti failo." << endl;
+        return 1;
+    }
+
+    
+    ofstream outputFile("kolizijuHashai.txt");
+    if (!outputFile.is_open()) {
+        cerr << "Nepavyko atidaryti failo isvesties saugojimui." << endl;
+        return 1;
+    }
+
+    for (size_t i = 0; i < stringPairs.size(); ++i) {
+        const pair<string, string>& pair = stringPairs[i];
+        apdoroja(pair.first, outputFile);  
+        apdoroja(pair.second, outputFile);
+    }
+
+    outputFile.close();
+    
+
+    checkHashCollisions(stringPairs);
+
+
+   break;
+}
+
+            case 7:
                 cout << "Programa baigta." << endl;
                 break;
 
@@ -102,7 +196,7 @@ int main() {
             cout << "ivesties hashas issaugotas faile hash_performance.txt" << endl;
         }
 
-    } while (choice != 5);  
+    } while (choice != 7);  
 
     return 0;
 }
