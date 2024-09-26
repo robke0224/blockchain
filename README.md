@@ -161,7 +161,7 @@ function testukas1(filename, lineCount)
 
 ## Collision Detection
 
-function kolizijos(stringPairs)
+function 'kolizijos(stringPairs)'
     - Hash each string in the pairs
     - Check for hash collisions (if two different strings have the same hash)
     - Output any detected collisions
