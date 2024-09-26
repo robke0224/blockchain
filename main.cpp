@@ -15,7 +15,8 @@ int main() {
         cout << "4. eiluciu hashavimo laiko testavimas" << endl;
         cout << "5. generuoti simboliu eiluciu poras"<< endl;
         cout << "6. collision resistance test"<< endl;
-        cout << "7. baigti programa" << endl;  
+        cout << "7. procentinio skirtingumo skaiciavimas" << endl;  
+        cout << "8. baigti programa" << endl; 
         
         cin >> choice;
 
@@ -24,7 +25,7 @@ int main() {
         if (choice == 1 || choice == 2) {
             outputFile.open("hashas.txt");
         } else if (choice == 4) {
-            outputFile.open("hash_performance.txt");
+            outputFile.open("eilutes4.txt");
         }
 
         if (!outputFile.is_open() && (choice == 1 || choice == 2 || choice == 4)) {
@@ -176,7 +177,107 @@ case 6:{
    break;
 }
 
-            case 7:
+    case 7:{
+         const int num_pairs = 100000;  
+         const int max_length = 500;   
+
+    vector<double> bit_differences, hex_differences;
+
+    random_device rd;
+    mt19937 generator(rd());
+    uniform_int_distribution<> length_dist(1, max_length);
+
+    
+    ofstream pair_file("7testas.txt");
+    if (!pair_file.is_open()) {
+        cerr << "nepavyko atidaryti failo!" << endl;
+        return -1;
+    }
+
+    
+    ofstream hash_file("palyginimo_rezultatai.txt");
+    if (!hash_file.is_open()) {
+        cerr << "nepavyko atidaryti failo!" << endl;
+        return -1;
+    }
+
+    for (int i = 0; i < num_pairs; ++i) {
+       
+        int length = length_dist(generator);
+        string str1 = generate_random_string(length);
+
+        
+        string str2 = str1;
+        uniform_int_distribution<> char_pos_dist(0, length - 1);
+        int pos = char_pos_dist(generator);
+
+        // cia kad tik vienu simboliu skirtusi
+        char original_char = str2[pos];
+        char new_char;
+        do {
+            new_char = generate_random_string(1)[0];
+        } while (new_char == original_char);
+        str2[pos] = new_char;
+
+        //irasyti i faila
+        pair_file << str1 << " " << str2 << endl;
+
+        // hashina
+        string modified_str1 = keiciaIvesti(str1);
+        string modified_str2 = keiciaIvesti(str2);
+
+        string binary_hash1 = ivestis_i_bitus(modified_str1);
+        string binary_hash2 = ivestis_i_bitus(modified_str2);
+
+        string hex_hash1 = sesiolika_bitu(binary_hash1, modified_str1);
+        string hex_hash2 = sesiolika_bitu(binary_hash2, modified_str2);
+
+        // skirtumai
+        double bit_diff = compute_bit_difference(binary_hash1, binary_hash2);
+        double hex_diff = compute_hex_difference(hex_hash1, hex_hash2);
+
+        bit_differences.push_back(bit_diff);
+        hex_differences.push_back(hex_diff);
+
+        // iraso i faila skirtumus
+        hash_file << "String pora: " << str1 << " " << str2 << endl;
+        hash_file << "pirmo hashas hex: " << hex_hash1 << endl;
+        hash_file << "antro hashas hex: " << hex_hash2 << endl;
+        hash_file << "bitu skirtumas: " << bit_diff << "%" << endl;
+        hash_file << "hexo skirtumas: " << hex_diff << "%" << endl;
+        hash_file << "-------------------------------------------" << endl;
+    }
+
+ 
+    pair_file.close();
+    hash_file.close();
+
+    // skaiciavimai
+    double bit_min = *min_element(bit_differences.begin(), bit_differences.end());
+    double bit_max = *max_element(bit_differences.begin(), bit_differences.end());
+    double bit_avg = accumulate(bit_differences.begin(), bit_differences.end(), 0.0) / bit_differences.size();
+
+    double hex_min = *min_element(hex_differences.begin(), hex_differences.end());
+    double hex_max = *max_element(hex_differences.begin(), hex_differences.end());
+    double hex_avg = accumulate(hex_differences.begin(), hex_differences.end(), 0.0) / hex_differences.size();
+
+    // isvestis terminale
+    cout << "bitu skirtumas: " << endl;
+    cout << "min: " << bit_min << "%" << endl;
+    cout << "max: " << bit_max << "%" << endl;
+    cout << "vidutinis: " << bit_avg << "%" << endl;
+
+    cout << "hexu sirtumas: " << endl;
+    cout << "min: " << hex_min << "%" << endl;
+    cout << "max: " << hex_max << "%" << endl;
+    cout << "vidutinis: " << hex_avg << "%" << endl;
+
+    break;
+
+    }
+
+
+            case 8:
                 cout << "Programa baigta." << endl;
                 break;
 
@@ -196,7 +297,7 @@ case 6:{
             cout << "ivesties hashas issaugotas faile hash_performance.txt" << endl;
         }
 
-    } while (choice != 7);  
+    } while (choice != 8);  
 
     return 0;
 }
