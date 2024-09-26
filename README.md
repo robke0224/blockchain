@@ -97,75 +97,20 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 - Ensure that the `konstitucija.txt` file exists in the working directory if you're selecting the file input option.
 
 ------------------------------------------------------------------------------------------------------
-# Pseudocode
+## Pseudocode
 
-Pseudocode
 
-1. Main Menu
-Display options to the user:
--Input string manually and hash it
--Read strings from a file and hash each line
--Generate test files for hashing
--Test hashing performance with different line counts
--Generate random string pairs for collision testing
--Check for hash collisions between pairs of strings
--Measure the difference in hashes of similar strings
--Exit the program
-Based on the user's choice, call the appropriate function.
-2. String Hashing Logic
+The program allows users to hash strings, test hash performance, detect collisions, and measure hash sensitivity. The pseudocode below outlines the program's structure and functionality.
 
-function apdoroja(input, outputFile)
-    - Modify input:
-        - XOR and manipulate characters in the string
-        - Reverse the string
-        - Ensure all characters are printable
-    - Convert modified input to binary
-    - Calculate the sum of alphabetic characters
-    - Modify the binary string using the character sum
-    - Convert the binary string to hexadecimal
-    - Save the result to the output file
-3. File Generation Functions
-cpp
-Copy code
-function failiukas(filename, char, size)
-    - Create a file filled with the repeated character
+## Main Menu
 
-function kratinukas(filename, size)
-    - Create a file with random printable ASCII characters
-
-function nevienodi(filename1, filename2, size)
-    - Create two files with random content, differing by one character
-
-function tuscias(filename)
-    - Create an empty file
-4. Performance Test Function
-cpp
-Copy code
-function testukas1(filename, lineCount)
-    - Read a specified number of lines from the file
-    - Hash each line
-    - Measure the time taken to hash all lines
-    - Output the results (total time and number of lines hashed)
-5. Collision Detection
-cpp
-Copy code
-function kolizijos(stringPairs)
-    - Hash each string in the pairs
-    - Check if any two strings have the same hash (collision)
-    - Output any collisions found and the conflicting string pairs
-6. Random String Pair Generation
-cpp
-Copy code
-function poros_random(length)
-    - Generate a random string of the specified length using printable characters
-
-function loadStringPairsFromFile(filename)
-    - Load pairs of strings from a file
-7. Difference Measurement Functions
-cpp
-Copy code
-function compute_bit_difference(binary1, binary2)
-    - Compare two binary strings and calculate the percentage difference
-
-function compute_hex_difference(hex1, hex2)
-    - Compare two hexadecimal strings and calculate the percentage difference
+Display a menu with options:
+- Manual Input Hashing
+- File-based Hashing
+- Generate Test Files
+- Performance Testing
+- Collision Testing
+- Hash Sensitivity Testing
+- Exit the Program
+  
+Based on the user's choice, call the corresponding function.
