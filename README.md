@@ -29,7 +29,7 @@ This repository contains a C++ program that generates a custom hash from user in
    - Ensures the string has a minimum length of 32 characters by padding with the letter k.
 
 ### 3. **`hexas` Function**:
-   -Increases the value of hexadecimal characters.
+   - Increases the value of hexadecimal characters.
    - For numbers (0-9), increments the character by 1; for letters (A-F, a-f), shifts them within the allowable hexadecimal range.
 
 ### 4. **`sesiolika_bitu` Function**:
