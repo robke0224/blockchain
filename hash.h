@@ -7,7 +7,7 @@
 
 using namespace std;
 
-string keiciaIvesti(string& input);
+string keiciaIvesti(const string& input, char key, int shift, bool invert, bool useNand);
 string ivestis_i_bitus(string& input);
 char hexas(char hexChar);
 string sesiolika_bitu(string& bits, const string& originalInput);
@@ -22,7 +22,7 @@ void testukas1(const std::string& filename, int lineCount);
 string poros_random(int length);
 void kolizijos(const vector<pair<string, string> >& stringPairs);
 vector<pair<string, string> > loadStringPairsFromFile(const string& filename);
-string generate_random_string(size_t length);
+string generate_random_string(size_t length, const string& charSet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 double compute_bit_difference(const string &binary1, const string &binary2);
 double compute_hex_difference(const string &hex1, const string &hex2);
 
