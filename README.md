@@ -20,29 +20,32 @@ This repository contains a C++ program that generates a custom hash from user in
 
 ### 1. **`keiciaIvesti` Function**:
    - Alters the input string by applying XOR on each character.
-   - Different transformations are applied based on whether the character is uppercase, lowercase, or a non-alphabet character.
-   - Reverses the modified string at the end.
+   - Applies transformations based on character type (uppercase, lowercase, or non-alphabetic).
+   - Optionally uses NAND operations and inversion for extra randomness.
+   - Reverses the modified string at the end for additional complexity.
 
 ### 2. **`ivestis_i_bitus` Function**:
-   - Converts the input string into a binary representation (256 bits).
-   - Pads the input string with the letter `k` to ensure it reaches a minimum length of 32 characters.
+   - Converts the input string into a binary string representation (256 bits).
+   - Ensures the string has a minimum length of 32 characters by padding with the letter k.
 
 ### 3. **`hexas` Function**:
-   - Increases the value of hexadecimal characters.
-   - For numbers (0-9), increments the character by 1, and for letters (A-F, a-f), shifts the character within its range.
+   -Increases the value of hexadecimal characters.
+   - For numbers (0-9), increments the character by 1; for letters (A-F, a-f), shifts them within the allowable hexadecimal range.
 
 ### 4. **`sesiolika_bitu` Function**:
-   - Converts the binary string into hexadecimal using 4-bit chunks.
-   - Randomizes the transformation based on conditions such as the presence of uppercase letters or exclamation marks in the original input.
-   - Ensures the result is exactly 64 hexadecimal characters.
+   - Converts the binary string to hexadecimal using 4-bit chunks.
+   - Randomizes transformations based on certain conditions like uppercase letters or special characters in the input string.
+   - Ensures the final result is a 64-character hexadecimal string.
 
-### 5. **`suma` Function**:
-   - Calculates the sum of the alphabetic characters in the input string.
-   - Treats both uppercase and lowercase letters as lowercase to compute the sum.
+### 5. **`priebalses` Function**:
+   - Calculates the sum of the alphabetic positions of consonants in the input string.
+   - Treats both uppercase and lowercase consonants equally by converting the characters to lowercase.
+   - Returns a sum that is later used to modify the binary representation of the input string.
 
-### 6. **`dauginti_bitus_is_sumos` Function**:
-   - Modifies the binary string based on the sum of the alphabetic characters.
-   - Performs bitwise changes using the sum value.
+### 6. **`daugyba` Function**:
+   - Takes a binary string and modifies it based on the sum of consonants (`wordSum`) provided by `priebalses`.
+   - If the `invert` flag is set, it will invert the bits; otherwise, it directly modifies the bits using the consonant sum.
+   - The function stops modifying the string once `wordSum` is exhausted (divided down to zero).
 
 ### 7. **`apdoroja` Function**:
    - Coordinates the hashing process by:
@@ -59,8 +62,8 @@ This repository contains a C++ program that generates a custom hash from user in
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
+   git clone https://github.com/robke0224/blockchain.git
+   cd blockchain
    ```
 
 2. **Compile the Program**:
@@ -102,102 +105,33 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 
 ## Pseudocode
 
-The program allows users to hash strings, test hash performance, detect collisions, and measure hash sensitivity. The pseudocode below outlines the program's structure and functionality.
+FUNCTION keiciaIvesti(input, key, shift, invert, useNand)
+    result = input
+    
+    Initialize a random generator with the hash of input
+    Generate random shift values between 1 and 7
+    
+    FOR each character in result:
+        Apply XOR between the character and a dynamic key derived from the input, key, and position
 
-### Main Menu
+    FOR each character in result:
+        Calculate a dynamic shift combining randomness, ASCII value, and position
+        Apply a circular left shift to the character based on the dynamic shift
 
-- Display a menu with options:
-  - **Manual Input Hashing**
-  - **File-based Hashing**
-  - **Generate Test Files**
-  - **Performance Testing**
-  - **Collision Testing**
-  - **Hash Sensitivity Testing**
-  - **Exit the Program**
-  
-- Based on the user's choice, call the corresponding function.
+    IF invert is TRUE:
+        FOR each character in result:
+            Conditionally invert the bits of the character based on randomness
 
----
+    IF useNand is TRUE:
+        FOR each character in result:
+            Apply NAND operation between the character and a dynamic key derived from input, key, and randomness
 
-### Hashing Logic
+    FOR each adjacent pair of characters in result:
+        XOR the current character with the previous character
 
-```cpp
-function apdoroja(input, outputFile)
-    - Modify the input string:
-        - XOR and modify characters
-        - Reverse the string
-        - Ensure all characters are printable
-    - Convert the modified input to binary
-    - Calculate the sum of alphabetic character positions
-    - Modify the binary string using the character sum
-    - Convert the binary string to hexadecimal
-    - Save the resulting hash to the output file
-```
-
----
-
-### File Generation Functions
-
-```cpp
-function failiukas(filename, char, size)
-    - Create a file filled with the repeated character
-
-function kratinukas(filename, size)
-    - Create a file with random printable ASCII characters
-
-function nevienodi(filename1, filename2, size)
-    - Create two files with random content, differing by one character
-
-function tuscias(filename)
-    - Create an empty file
-```
-
----
-
-### Performance Testing
-
-```cpp
-function testukas1(filename, lineCount)
-    - Read the specified number of lines from the file
-    - Hash each line
-    - Measure the time taken for hashing
-    - Output the results (time taken and number of lines hashed)
-```
-
----
-
-### Collision Detection
-
-```cpp
-function kolizijos(stringPairs)
-    - Hash each string in the pairs
-    - Check for hash collisions (if two different strings have the same hash)
-    - Output any detected collisions
-```
-
----
-
-### Random String Pair Generation
-
-```cpp
-function poros_random(length)
-    - Generate a random string of the specified length using printable characters
-
-function loadStringPairsFromFile(filename)
-    - Load pairs of strings from a file
-```
-
----
-
-### Hash Difference Calculation
-
-```cpp
-function compute_bit_difference(binary1, binary2)
-    - Compare two binary strings and calculate the percentage difference
-
-function compute_hex_difference(hex1, hex2)
-    - Compare two hexadecimal strings and calculate the percentage difference
-```
+    Fold the result by XORing the first half of the string with the second half
+    
+    RETURN result
 
 ---
 
