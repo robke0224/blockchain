@@ -106,6 +106,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 ## Pseudocode
 ---
 FUNCTION keiciaIvesti(input, key, shift, invert, useNand)
+    
     result = input
     
     Initialize a random generator with the hash of input
@@ -134,6 +135,7 @@ FUNCTION keiciaIvesti(input, key, shift, invert, useNand)
     RETURN result
 ---
 FUNCTION ivestis_i_bitus(input, minLength, padChar)
+   
     WHILE input length is less than minLength:
         Append padChar to the input
     
@@ -146,6 +148,7 @@ FUNCTION ivestis_i_bitus(input, minLength, padChar)
     RETURN binaryString
 ---
 FUNCTION hexas(hexChar, step)
+    
     IF hexChar is a digit:
         Convert hexChar to an integer
         Increment the integer by step and take modulo 10
@@ -164,6 +167,7 @@ FUNCTION hexas(hexChar, step)
     RETURN hexChar if it's not a valid hex character
 ---
 FUNCTION sesiolika_bitu(bits, originalInput)
+    
     WHILE bits length is not a multiple of 4:
         Add '0' to the beginning of bits
 
