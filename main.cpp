@@ -44,7 +44,7 @@ int main() {
                 break;
             }
             case 2: {
-                ifstream inputFile("testas_su_A.txt");  // Replace with the file you need to read and hash
+                ifstream inputFile("konstitucija.txt");  // Replace with the file you need to read and hash
 
                 if (!inputFile.is_open()) {
                     cout << "nepavyko atidaryti failo:(" << endl;
@@ -223,8 +223,10 @@ case 6:{
         pair_file << str1 << " " << str2 << endl;
 
         // hashina
-        string modified_str1 = keiciaIvesti(str1);
-        string modified_str2 = keiciaIvesti(str2);
+        
+        string modified_str1 = keiciaIvesti(str1, 'k', 2, true, false);
+        string modified_str2 = keiciaIvesti(str2, 'k', 2, true, false);
+
 
         string binary_hash1 = ivestis_i_bitus(modified_str1);
         string binary_hash2 = ivestis_i_bitus(modified_str2);
