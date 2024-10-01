@@ -375,6 +375,21 @@ From this data:
 | 256                    | 0.0265276            |
 
 ---
+## After code refactoring
+---
+
+| Number of Lines Hashed | Time Taken (seconds) |
+|------------------------|----------------------|
+| 1                      | 0.000527792          |
+| 2                      | 0.000360708          |
+| 4                      | 0.000655             |
+| 8                      | 0.00108696           |
+| 16                     | 0.00234754           |
+| 32                     | 0.00490242           |
+| 64                     | 0.00670871           |
+| 128                    | 0.0116388            |
+| 256                    | 0.0225827            |
+---
 ## Collision resistance
 
 In my collision resistance testing, the function was evaluated to determine whether any two different inputs produced the same hash output (a collision). After thorough testing, I found that the function successfully avoided any collisions, meaning that each unique input consistently generated a distinct hash. This confirms the collision resistance of the hashing function, ensuring its reliability in distinguishing between different data inputs.
