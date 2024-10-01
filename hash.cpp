@@ -23,8 +23,8 @@ string keiciaIvesti(const string& input, char key, int shift, bool invert, bool 
     string result = input;
 
     // Seed a random generator with the input to introduce randomness
-    std::mt19937 rng(hash<string> () (input)); 
-    std::uniform_int_distribution<int> randShift(1, 7); // Random shift tarp 1 and 7
+    mt19937 rng(hash<string> () (input)); 
+    uniform_int_distribution<int> randShift(1, 7); // Random shift tarp 1 and 7
 
     // XOR su dinamiškai kintančiu raktu pagal įvestį ir padėtį
     for (size_t i = 0; i < result.length(); ++i) {
@@ -77,7 +77,7 @@ string ivestis_i_bitus(string input, int minLength, char padChar) {
     string binaryString = "";
     for (size_t i = 0; i < input.length(); ++i) {
     char c = input[i];
-    binaryString += std::bitset<8>(c).to_string();  // Convert each character to 8-bit binary
+    binaryString += bitset<8>(c).to_string();  // Convert each character to 8-bit binary
 }
 
     return binaryString;
@@ -102,91 +102,97 @@ char hexas(char hexChar, int step) {
 
 
 string sesiolika_bitu(string& bits, const string& originalInput) {
+    // ziurim kad dvejetainės eilutes ilgis butu 4 kartotinis, jei ne, uzpildom nuliais kol bus
     while (bits.size() % 4 != 0) {
         bits = '0' + bits;
     }
 
     stringstream hexiukai;
-    bool containsUpper = any_of(originalInput.begin(), originalInput.end(), ::isupper);
-    bool containsExclamation = originalInput.find('!') != string::npos;
 
-    int daugiklis = 1;
-    if (containsUpper) {
+    // ar turi didziuju arba -
+    bool didzioji = any_of(originalInput.begin(), originalInput.end(), ::isupper);
+    bool zenklas = originalInput.find('-') != string::npos;
+
+    // daugiklis
+    int daugiklis = 9;
+    if (didzioji) {
         daugiklis = originalInput.length();
-    } else if (containsExclamation) {
+    } else if (zenklas) {
         daugiklis = originalInput.length() / 2;
     }
 
     srand(time(0));
     int pakaitine_reiksme = 1;
 
+    // gabalus dorojam
     for (size_t i = 0; i < bits.size(); i += 4) {
         string gabalas = bits.substr(i, 4);
-        int value = stoi(gabalas, nullptr, 2);
+        int value = stoi(gabalas, nullptr, 2);  // bnr to int
 
         int kiek_originalus = originalInput[i / 4] % 16;
         pakaitine_reiksme += (kiek_originalus + 1);
 
         int randomShift = rand() % daugiklis;
-        value *= (pakaitine_reiksme + randomShift);
-        value = abs(value % 16);
+        value *= (pakaitine_reiksme + randomShift);  
+        value = abs(value % 16);  // ar hex range
 
-        hexiukai << std::hex << value;
+        hexiukai << hex << value;  // atvaizduoti
     }
 
     string hexo_rezas = hexiukai.str();
 
-    int step = 5;  // Define the step value
-        for (size_t i = 0; i < hexo_rezas.length(); ++i) {
-            hexo_rezas[i] = hexas(hexo_rezas[i], step);  // Pass the step value to hexas
+    // per kiek keliam
+    int step = 5;
+    for (size_t i = 0; i < hexo_rezas.length(); ++i) {
+        hexo_rezas[i] = hexas(hexo_rezas[i], step);  // pritaikom kiekvienam simboliui
     }
 
+    // kad butu 64 ilgio
     if (hexo_rezas.length() > 64) {
-        hexo_rezas = hexo_rezas.substr(0, 64);
-    } else {
+        hexo_rezas = hexo_rezas.substr(0, 64);  // trumpinam
         while (hexo_rezas.length() < 64) {
-            hexo_rezas += '0';
+            hexo_rezas += '0';  // dedam nuliuku
         }
     }
 
     return hexo_rezas;
 }
 
-int suma(const string& input) {
+int priebalses(const string& input) {
     int sum = 0;
     for (size_t i = 0; i < input.length(); ++i) {
         char c = input[i];
-        if (std::isalpha(c)) {
-            sum += std::tolower(c) - 'a' + 1;
+        c = tolower(c);  // Normalize case
+        if (isalpha(c) && c != 'a' && c != 'e' && c != 'i' && c != 'o' && c != 'u') {
+            sum += c - 'a' + 1;
         }
     }
     return sum;
 }
 
-string dauginti_bitus_is_sumos(string bits, int wordSum) {
+
+string daugyba (string bits, int wordSum, bool invert) {
     for (size_t i = 0; i < bits.size(); ++i) {
         if (bits[i] == '1') {
-            bits[i] = (wordSum % 2) ? '1' : '0';
+            bits[i] = (invert ? !(wordSum % 2) : (wordSum % 2)) ? '1' : '0';
         } else {
-            bits[i] = (wordSum % 2) ? '0' : '1';
+            bits[i] = (invert ? !(wordSum % 2) : (wordSum % 2)) ? '0' : '1';
         }
         wordSum /= 2;
         if (wordSum == 0) break;
     }
     return bits;
 }
+
 void apdoroja(const string& input, ofstream& outputFile) {
     string pakeista_ivestis = input + to_string(input.length());
-
-    // Modified: Pass necessary parameters to the keiciaIvesti function
-    pakeista_ivestis = keiciaIvesti(pakeista_ivestis, 'k', 2, true, false);
-
-    std::string binaryResult = ivestis_i_bitus(pakeista_ivestis, 32, 'i');
-    int wordSum = suma(pakeista_ivestis);
-    string pakeisti_bitai = dauginti_bitus_is_sumos(binaryResult, wordSum);
+    pakeista_ivestis = keiciaIvesti(pakeista_ivestis, 'j', 2, true, false);
+    string binaryResult = ivestis_i_bitus(pakeista_ivestis, 32, 'i');
+    int wordSum = priebalses(pakeista_ivestis);
+    string pakeisti_bitai = daugyba(binaryResult, wordSum, true);
     string hashResult = sesiolika_bitu(pakeisti_bitai, pakeista_ivestis);
 
-    outputFile << "hashas: " << hashResult << endl;
+    outputFile << "hash'as: " << hashResult << endl;
 }
 
 
@@ -243,7 +249,7 @@ void nevienodi(const string& filename1, const string& filename2, size_t size) {
 }
 
 
-void tuscias(const std::string& filename) {
+void tuscias(const string& filename) {
     ofstream file(filename);
     file.close();
 }
