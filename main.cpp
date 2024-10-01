@@ -228,8 +228,8 @@ case 6:{
         string modified_str2 = keiciaIvesti(str2, 'k', 2, true, false);
 
 
-        string binary_hash1 = ivestis_i_bitus(modified_str1);
-        string binary_hash2 = ivestis_i_bitus(modified_str2);
+        string binary_hash1 = ivestis_i_bitus(modified_str1, 32, 'i');
+        string binary_hash2 = ivestis_i_bitus(modified_str2, 32, 'i');
 
         string hex_hash1 = sesiolika_bitu(binary_hash1, modified_str1);
         string hex_hash2 = sesiolika_bitu(binary_hash2, modified_str2);
