@@ -17,42 +17,61 @@
 using namespace std;
 
 
-string keiciaIvesti(string &input) {
+
+//ivesties pakeitimas
+string keiciaIvesti(const string& input, char key, int shift, bool invert, bool useNand) {
+    string result = input;
+
+    // Seed a random generator with the input to introduce randomness
+    std::mt19937 rng(hash<string> () (input)); 
+    std::uniform_int_distribution<int> randShift(1, 7); // Random shift tarp 1 and 7
+
+    // XOR su dinamiškai kintančiu raktu pagal įvestį ir padėtį
+    for (size_t i = 0; i < result.length(); ++i) {
+        result[i] ^= (key + result[i] + i * 7) % 256;
+    }
+
     
-    for (size_t i = 0; i < input.size(); ++i) {
-        if (isalpha(input[i])) {
-            if (isupper(input[i]) || input[i] == '?') {
-                input[i] ^= (i % 8);  // XOR mod 8
-                input[i] += 3;        // ascii + 3
-            } else {
-                input[i] ^= (i + 5);  // XOR  +5
-                input[i] -= 4;        // ascii -4
+    for (size_t i = 0; i < result.length(); ++i) {
+        int dynamicShift = (randShift(rng) + result[i] + i) % 8;  // Combine randomness, ASCII value, and position
+        result[i] = (result[i] << dynamicShift) | (result[i] >> (8 - dynamicShift));
+    }
+
+    // Invert bits based on a combination of randomness and character position
+    if (invert) {
+        for (size_t i = 0; i < result.length(); ++i) {
+            if ((result[i] + rng() % 100) % 2 == 0) {  // Introduce randomness into inversion decision
+                result[i] = ~result[i];
             }
-        } else {
-            input[i] ^= (i % 6);  // XOR mod 6
-            input[i] += 1;        // ascii + 1
         }
     }
 
-    
-    reverse(input.begin(), input.end());
-
-    
-    for (size_t i = 0; i < input.size(); ++i) {
-        if (!isprint(static_cast<unsigned char>(input[i]))) {
-           
-            input[i] = 'a' + (input[i] % 26);  
+    // Apply NAND operation using both key, position, and randomness
+    if (useNand) {
+        for (size_t i = 0; i < result.length(); ++i) {
+            result[i] = ~(result[i] & ((key + result[i] + rng() % 100) % 256));
         }
     }
 
-    return input;
+    // Introduce a final mixing step by XORing adjacent characters
+    for (size_t i = 1; i < result.length(); ++i) {
+        result[i] ^= result[i - 1];
+    }
+
+    // Fold the result onto itself by XORing the first half with the second half
+    for (size_t i = 0; i < result.length() / 2; ++i) {
+        result[i] ^= result[result.length() - 1 - i];
+    }
+
+    return result;
 }
+
 
 string ivestis_i_bitus(string& input) {
     string bits;
 
     while (input.length() < 32) {
-        input += 'k';
+        input += 'i';
     }
 
     for (size_t i = 0; i < input.length(); ++i) {
@@ -146,11 +165,12 @@ string dauginti_bitus_is_sumos(string bits, int wordSum) {
     }
     return bits;
 }
-
 void apdoroja(const string& input, ofstream& outputFile) {
     string pakeista_ivestis = input + to_string(input.length());
 
-    keiciaIvesti(pakeista_ivestis);
+    // Modified: Pass necessary parameters to the keiciaIvesti function
+    pakeista_ivestis = keiciaIvesti(pakeista_ivestis, 'k', 2, true, false);
+
     string binaryResult = ivestis_i_bitus(pakeista_ivestis);
     int wordSum = suma(pakeista_ivestis);
     string pakeisti_bitai = dauginti_bitus_is_sumos(binaryResult, wordSum);
@@ -158,6 +178,7 @@ void apdoroja(const string& input, ofstream& outputFile) {
 
     outputFile << "hashas: " << hashResult << endl;
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // failas su viena raide
@@ -293,19 +314,17 @@ vector<pair<string, string> > loadStringPairsFromFile(const string& filename) {
 /////////////////////////////////////////////////////////////////////////
 
 // Function to generate random strings with only printable ASCII characters
-string generate_random_string(size_t length) {
-    const string characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";  // Only printable characters
+string generate_random_string(size_t length, const string& charSet) {
     random_device rd;
     mt19937 generator(rd());
-    uniform_int_distribution<> distribution(0, characters.size() - 1);
+    uniform_int_distribution<> distribution(0, charSet.size() - 1);
 
-    string random_string;
+    string randomString;
     for (size_t i = 0; i < length; ++i) {
-        random_string += characters[distribution(generator)];
+        randomString += charSet[distribution(generator)];
     }
-    return random_string;
+    return randomString;
 }
-
 
 
 // Function to compute bit-level difference between two binary strings
