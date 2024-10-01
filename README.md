@@ -362,6 +362,7 @@ From this data:
   ![output-2](https://github.com/user-attachments/assets/6e18e05a-f2b8-461a-827a-223aeae6d56d)
 
 ---
+
 | Number of Lines Hashed | Time Taken (seconds) |
 |------------------------|----------------------|
 | 1                      | 0.000768167          |
@@ -377,7 +378,8 @@ From this data:
 ---
 ## After code refactoring
 ---
-
+![output-3](https://github.com/user-attachments/assets/6130e4e3-fbdd-48bb-9777-28870657a92f)
+---
 | Number of Lines Hashed | Time Taken (seconds) |
 |------------------------|----------------------|
 | 1                      | 0.000527792          |
