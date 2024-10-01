@@ -67,30 +67,39 @@ string keiciaIvesti(const string& input, char key, int shift, bool invert, bool 
 }
 
 
-string ivestis_i_bitus(string& input) {
-    string bits;
-
-    while (input.length() < 32) {
-        input += 'i';
+string ivestis_i_bitus(string input, int minLength, char padChar) {
+    // Paddingas
+    while (input.length() < minLength) {
+        input += padChar;  // 
     }
 
+    // Convert to binary
+    string binaryString = "";
     for (size_t i = 0; i < input.length(); ++i) {
-        char c = input[i];
-        bits += bitset<8>(static_cast<unsigned char>(c)).to_string();
-    }
-    return bits;
+    char c = input[i];
+    binaryString += std::bitset<8>(c).to_string();  // Convert each character to 8-bit binary
 }
 
-char hexas(char hexChar) {
-    if (isdigit(hexChar)) {
-        return (hexChar == '9') ? '0' : hexChar + 1;
-    } else if (hexChar >= 'A' && hexChar <= 'F') {
-        return (hexChar == 'F') ? 'A' : hexChar + 1;
-    } else if (hexChar >= 'a' && hexChar <= 'f') {
-        return (hexChar == 'f') ? 'a' : hexChar + 1;
-    }
-    return hexChar;
+    return binaryString;
 }
+
+char hexas(char hexChar, int step) {
+    if (isdigit(hexChar)) {
+        int num = hexChar - '0';  // verciam i int
+        num = (num + step) % 10;  // pridedam per kiek pakeist ir  mod 10
+        return '0' + num;         // atgal i char
+    } else if (hexChar >= 'A' && hexChar <= 'F') {
+        int num = hexChar - 'A';  // i int range af
+        num = (num + step) % 6;   // pridedam per kiek pakeist plius mod 6
+        return 'A' + num;         // atgal i char
+    } else if (hexChar >= 'a' && hexChar <= 'f') {
+        int num = hexChar - 'a';  // int range af
+        num = (num + step) % 6;   // pridedam per kiek pakeist plius mod 6
+        return 'a' + num;         // atgal i char
+    }
+    return hexChar;  // grazina nekeista jei ne validus hexas
+}
+
 
 string sesiolika_bitu(string& bits, const string& originalInput) {
     while (bits.size() % 4 != 0) {
@@ -127,8 +136,9 @@ string sesiolika_bitu(string& bits, const string& originalInput) {
 
     string hexo_rezas = hexiukai.str();
 
-    for (size_t i = 0; i < hexo_rezas.length(); ++i) {
-        hexo_rezas[i] = hexas(hexo_rezas[i]);
+    int step = 5;  // Define the step value
+        for (size_t i = 0; i < hexo_rezas.length(); ++i) {
+            hexo_rezas[i] = hexas(hexo_rezas[i], step);  // Pass the step value to hexas
     }
 
     if (hexo_rezas.length() > 64) {
@@ -171,7 +181,7 @@ void apdoroja(const string& input, ofstream& outputFile) {
     // Modified: Pass necessary parameters to the keiciaIvesti function
     pakeista_ivestis = keiciaIvesti(pakeista_ivestis, 'k', 2, true, false);
 
-    string binaryResult = ivestis_i_bitus(pakeista_ivestis);
+    std::string binaryResult = ivestis_i_bitus(pakeista_ivestis, 32, 'i');
     int wordSum = suma(pakeista_ivestis);
     string pakeisti_bitai = dauginti_bitus_is_sumos(binaryResult, wordSum);
     string hashResult = sesiolika_bitu(pakeisti_bitai, pakeista_ivestis);
