@@ -105,7 +105,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 
 ## Pseudocode
 ---
-**`FUNCTION keiciaIvesti(input, key, shift, invert, useNand)`**
+## **`FUNCTION keiciaIvesti(input, key, shift, invert, useNand)`**
 
     
     result = input
@@ -135,7 +135,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
     
     RETURN result
 ---
-**`FUNCTION ivestis_i_bitus(input, minLength, padChar)`**
+## **`FUNCTION ivestis_i_bitus(input, minLength, padChar)`**
 
    
     WHILE input length is less than minLength:
@@ -149,7 +149,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 
     RETURN binaryString
 ---
-**`FUNCTION hexas(hexChar, step)`**
+## **`FUNCTION hexas(hexChar, step)`**
 
     
     IF hexChar is a digit:
@@ -169,7 +169,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 
     RETURN hexChar if it's not a valid hex character
 ---
-**`FUNCTION sesiolika_bitu(bits, originalInput)`**
+## **`FUNCTION sesiolika_bitu(bits, originalInput)`**
 
     
     WHILE bits length is not a multiple of 4:
@@ -195,7 +195,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 
     RETURN the final 64-character hexadecimal string
 ---
-**`FUNCTION priebalses(input)`**
+## **`FUNCTION priebalses(input)`**
 
 
     sum = 0
@@ -206,7 +206,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
     
     RETURN sum
 ---
-**`FUNCTION daugyba(bits, wordSum, invert)`**
+## **`FUNCTION daugyba(bits, wordSum, invert)`**
 
 
     FOR each bit in bits:
@@ -226,7 +226,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 
     RETURN bits
 ---
-**`FUNCTION apdoroja(input, outputFile)`**
+## **`FUNCTION apdoroja(input, outputFile)`**
 
 
     Append the length of input to the input string
@@ -237,7 +237,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
     Convert the binary string to hexadecimal using sesiolika_bitu
     Write the final hash to the output file
 ---
-**`FUNCTION failiukas(filename, c, size)`**
+## **`FUNCTION failiukas(filename, c, size)`**
 
 
     Open a file for writing
@@ -245,7 +245,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
         Write the character 'c' followed by a newline to the file
     Close the file
 ---
-**`FUNCTION kratinukas(filename, size)`**
+## **`FUNCTION kratinukas(filename, size)`**
   
   
     Open a file for writing
@@ -254,7 +254,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
         Write a random character to the file
     Close the file
 ---  
-**`FUNCTION nevienodi(filename1, filename2, size)`**
+## **`FUNCTION nevienodi(filename1, filename2, size)`**
 
 
     Open two files for writing
@@ -263,11 +263,11 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
     Change the middle character of the second file
     Close both files
 ---
-**`FUNCTION tuscias(filename)`**
+## **`FUNCTION tuscias(filename)`**
 
     Open the file and immediately close it (creating an empty file)
 ---
-  **`FUNCTION testukas1(filename, lineCount)`**
+## **`FUNCTION testukas1(filename, lineCount)`**
 
 
     Open the input file for reading
@@ -282,7 +282,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
     Calculate and display the elapsed time
     Close both input and output files
 ---
-**`FUNCTION poros_random(length)`**
+## **`FUNCTION poros_random(length)`**
   
     Initialize a string with all uppercase and lowercase alphabetic characters
     Initialize an empty random string
@@ -290,7 +290,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
         Append a random character from the string to the random string
     RETURN the random string
 ---
-**`FUNCTION kolizijos(stringPairs)`**
+## **`FUNCTION kolizijos(stringPairs)`**
 
 
     Initialize an empty hash set and a collision counter
@@ -304,7 +304,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
     ELSE:
         Display that no collisions were found
 ---
-**`FUNCTION loadStringPairsFromFile(filename)`**
+## **`FUNCTION loadStringPairsFromFile(filename)`**
 
 
     Open the file for reading
@@ -315,7 +315,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
     Close the file
     RETURN the vector of string pairs
 ---
-**`FUNCTION generate_random_string(length, charSet)`**
+## **`FUNCTION generate_random_string(length, charSet)`**
 
 
     Initialize an empty string
@@ -323,7 +323,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
         Append a random character from charSet to the string
     RETURN the random string
 ---
-**`FUNCTION compute_bit_difference(binary1, binary2)`**
+## **`FUNCTION compute_bit_difference(binary1, binary2)`**
 
 
     Initialize a difference counter
@@ -332,7 +332,7 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
             Increment the difference counter
     RETURN the percentage of differing bits (differences / total bits * 100)
 ---
-**`FUNCTION compute_hex_difference(hex1, hex2)`**
+## **`FUNCTION compute_hex_difference(hex1, hex2)`**
 
 
     Initialize a difference counter
