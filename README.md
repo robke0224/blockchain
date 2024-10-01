@@ -105,7 +105,8 @@ Feel free to modify the transformation functions (like `keiciaIvesti`, `sesiolik
 
 ## Pseudocode
 ---
-FUNCTION keiciaIvesti(input, key, shift, invert, useNand)
+**`FUNCTION keiciaIvesti(input, key, shift, invert, useNand)`
+
     
     result = input
     
@@ -134,7 +135,8 @@ FUNCTION keiciaIvesti(input, key, shift, invert, useNand)
     
     RETURN result
 ---
-FUNCTION ivestis_i_bitus(input, minLength, padChar)
+**`FUNCTION ivestis_i_bitus(input, minLength, padChar)`
+
    
     WHILE input length is less than minLength:
         Append padChar to the input
@@ -147,7 +149,8 @@ FUNCTION ivestis_i_bitus(input, minLength, padChar)
 
     RETURN binaryString
 ---
-FUNCTION hexas(hexChar, step)
+**`FUNCTION hexas(hexChar, step)`
+
     
     IF hexChar is a digit:
         Convert hexChar to an integer
@@ -166,7 +169,8 @@ FUNCTION hexas(hexChar, step)
 
     RETURN hexChar if it's not a valid hex character
 ---
-FUNCTION sesiolika_bitu(bits, originalInput)
+**`FUNCTION sesiolika_bitu(bits, originalInput)`
+
     
     WHILE bits length is not a multiple of 4:
         Add '0' to the beginning of bits
@@ -191,7 +195,8 @@ FUNCTION sesiolika_bitu(bits, originalInput)
 
     RETURN the final 64-character hexadecimal string
 ---
-FUNCTION priebalses(input)
+**`FUNCTION priebalses(input)`
+
 
     sum = 0
     FOR each character in input:
@@ -201,7 +206,8 @@ FUNCTION priebalses(input)
     
     RETURN sum
 ---
-FUNCTION daugyba(bits, wordSum, invert)
+**`FUNCTION daugyba(bits, wordSum, invert)`
+
 
     FOR each bit in bits:
         IF bit is '1':
@@ -220,7 +226,8 @@ FUNCTION daugyba(bits, wordSum, invert)
 
     RETURN bits
 ---
-FUNCTION apdoroja(input, outputFile)
+**`FUNCTION apdoroja(input, outputFile)`
+
 
     Append the length of input to the input string
     Modify the input using keiciaIvesti function
@@ -230,22 +237,25 @@ FUNCTION apdoroja(input, outputFile)
     Convert the binary string to hexadecimal using sesiolika_bitu
     Write the final hash to the output file
 ---
-FUNCTION failiukas(filename, c, size)
+**`FUNCTION failiukas(filename, c, size)`
+
 
     Open a file for writing
     FOR size number of times:
         Write the character 'c' followed by a newline to the file
     Close the file
 ---
-  FUNCTION kratinukas(filename, size)
+**`FUNCTION kratinukas(filename, size)`
+  
   
     Open a file for writing
     Generate random printable ASCII characters
     FOR size number of times:
         Write a random character to the file
     Close the file
----   
-FUNCTION nevienodi(filename1, filename2, size)
+---  
+**`FUNCTION nevienodi(filename1, filename2, size)`
+
 
     Open two files for writing
     Generate a random string of size length
@@ -253,11 +263,12 @@ FUNCTION nevienodi(filename1, filename2, size)
     Change the middle character of the second file
     Close both files
 ---
-FUNCTION tuscias(filename)
+**`FUNCTION tuscias(filename)`
 
     Open the file and immediately close it (creating an empty file)
-  ---
-FUNCTION testukas1(filename, lineCount)
+---
+  **`FUNCTION testukas1(filename, lineCount)`
+
 
     Open the input file for reading
     Open the output file for writing
@@ -271,7 +282,7 @@ FUNCTION testukas1(filename, lineCount)
     Calculate and display the elapsed time
     Close both input and output files
 ---
-  FUNCTION poros_random(length)
+**`FUNCTION poros_random(length)`
   
     Initialize a string with all uppercase and lowercase alphabetic characters
     Initialize an empty random string
@@ -279,7 +290,8 @@ FUNCTION testukas1(filename, lineCount)
         Append a random character from the string to the random string
     RETURN the random string
 ---
-FUNCTION kolizijos(stringPairs)
+**`FUNCTION kolizijos(stringPairs)`
+
 
     Initialize an empty hash set and a collision counter
     FOR each pair of strings in stringPairs:
@@ -292,7 +304,8 @@ FUNCTION kolizijos(stringPairs)
     ELSE:
         Display that no collisions were found
 ---
-FUNCTION loadStringPairsFromFile(filename)
+**`FUNCTION loadStringPairsFromFile(filename)`
+
 
     Open the file for reading
     Initialize an empty vector of string pairs
@@ -302,14 +315,16 @@ FUNCTION loadStringPairsFromFile(filename)
     Close the file
     RETURN the vector of string pairs
 ---
-FUNCTION generate_random_string(length, charSet)
+**`FUNCTION generate_random_string(length, charSet)`
+
 
     Initialize an empty string
     FOR length number of times:
         Append a random character from charSet to the string
     RETURN the random string
 ---
-FUNCTION compute_bit_difference(binary1, binary2)
+**`FUNCTION compute_bit_difference(binary1, binary2)`
+
 
     Initialize a difference counter
     FOR each bit in both binary1 and binary2:
@@ -317,7 +332,8 @@ FUNCTION compute_bit_difference(binary1, binary2)
             Increment the difference counter
     RETURN the percentage of differing bits (differences / total bits * 100)
 ---
-FUNCTION compute_hex_difference(hex1, hex2)
+**`FUNCTION compute_hex_difference(hex1, hex2)`
+
 
     Initialize a difference counter
     FOR each character in both hex1 and hex2:
