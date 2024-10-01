@@ -195,7 +195,7 @@ case 6:{
     }
 
     
-    ofstream hash_file("palyginimo_rezultatai.txt");
+    ofstream hash_file("7testo_rezultatai.txt");
     if (!hash_file.is_open()) {
         cerr << "nepavyko atidaryti failo!" << endl;
         return -1;
